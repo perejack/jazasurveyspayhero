@@ -10,7 +10,7 @@ interface AdSenseProps {
 // Extend Window interface to include adsbygoogle
 declare global {
   interface Window {
-    adsbygoogle?: { push: (arg: Record<string, unknown>) => void }[];
+    adsbygoogle?: unknown[];
   }
 }
 
@@ -25,7 +25,7 @@ declare global {
  * 
  * IMPORTANT: Don't forget to update the PUBLISHER_ID constant below!
  */
-const PUBLISHER_ID = "ca-pub-XXXXXXXXXXXXXXXX"; // TODO: Replace with your actual AdSense Publisher ID
+const PUBLISHER_ID = "ca-pub-3351121121463213"; // Your AdSense Publisher ID
 
 export const AdSenseScript = () => {
   const [consentGiven, setConsentGiven] = useState(false);
@@ -121,7 +121,7 @@ const AdSense = ({ adSlot, adFormat = "auto", style, className = "" }: AdSensePr
   }, [consentGiven]);
 
   useEffect(() => {
-    if (isVisible && consentGiven && adRef.current && PUBLISHER_ID !== "ca-pub-XXXXXXXXXXXXXXXX") {
+    if (isVisible && consentGiven && adRef.current) {
       try {
         if (typeof window !== "undefined") {
           window.adsbygoogle = window.adsbygoogle || [];
@@ -142,20 +142,6 @@ const AdSense = ({ adSlot, adFormat = "auto", style, className = "" }: AdSensePr
       >
         <p className="text-xs text-muted-foreground text-center px-4">
           Advertising is disabled. Enable cookies to see relevant offers.
-        </p>
-      </div>
-    );
-  }
-
-  // Warning if publisher ID not set
-  if (PUBLISHER_ID === "ca-pub-XXXXXXXXXXXXXXXX") {
-    return (
-      <div 
-        className={`bg-yellow-100 border border-yellow-300 flex items-center justify-center ${className}`}
-        style={{ minHeight: "100px", ...style }}
-      >
-        <p className="text-xs text-yellow-800 text-center px-4">
-          ⚠️ AdSense Publisher ID not configured. Update PUBLISHER_ID in AdSense.tsx
         </p>
       </div>
     );
